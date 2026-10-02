@@ -3,188 +3,346 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>PlantCare — October pilot</title>
+<meta name="description" content="PlantCare looks after the plants in your flat while you are at work. ₹399 a month, two visits, a photo the same day. Maple Residency on Thursday, Cedar Heights on Friday." />
+<meta name="theme-color" content="#123524" />
+<title>PlantCare — plant care for your flat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --ink: #1b2420;
-    --muted: #5d6b63;
-    --forest: #143528;
-    --leaf: #1e6b43;
-    --line: #e3ddd2;
-    --paper: #f6f3ec;
-    --card: #fffdf8;
-    --sage: #e7f0e8;
-    --sand: #f8efe6;
-    --clay: #9a4632;
-    --gold: #8a6230;
+    --bg: #f3f6ef;
+    --ink: #142018;
+    --muted: #3d4f45;
+    --forest: #123524;
+    --leaf: #14532d;
+    --line: #d5e2d6;
+    --card: #fffcf7;
+    --sand: #f4ecdf;
+    --sage: #e7f3e8;
+    --clay: #8d3328;
+    --focus: #142018;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; min-height: 100%; }
   body {
-    font-family: "Avenir Next", "Segoe UI", sans-serif;
+    font-family: Raleway, "Avenir Next", "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
     color: var(--ink);
-    background: var(--paper);
+    background:
+      radial-gradient(900px 420px at 100% -8%, #dcead6 0%, transparent 58%),
+      radial-gradient(680px 360px at -12% 8%, #e6f0dc 0%, transparent 52%),
+      var(--bg);
   }
   button, input, select, textarea { font: inherit; color: inherit; }
   button { cursor: pointer; }
-  .app { display: grid; grid-template-columns: 248px 1fr; min-height: 100vh; }
-  aside {
-    background: var(--forest);
-    color: #f6f3ec;
-    padding: 22px 14px 16px;
-    display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow: auto;
-  }
-  .brand { font-family: Georgia, "Iowan Old Style", serif; font-size: 28px; padding: 0 8px; line-height: 1; }
-  .brand small {
-    display: block; margin-top: 8px;
-    font-family: "Avenir Next", "Segoe UI", sans-serif;
-    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #b7d4c4;
-  }
-  nav { display: flex; flex-direction: column; gap: 2px; margin-top: 28px; }
-  nav button {
-    text-align: left; background: transparent; border: 0; color: #e7f2eb;
-    border-radius: 10px; padding: 8px 12px; font-size: 15px;
-  }
-  nav button span { display: block; margin-top: 2px; font-size: 12px; color: #b7d4c4; }
-  nav button[aria-current="page"] { background: #1e6b43; color: white; }
-  nav button[aria-current="page"] span { color: #e4f3ea; }
-  nav button:hover { background: rgba(255,255,255,0.07); }
-  .aside-foot { margin-top: auto; padding: 12px 10px 4px; font-size: 13px; line-height: 1.45; color: #c9ddd2; }
-  .foot-short { display: none; }
-  main { padding: 28px 32px 72px; max-width: 1180px; }
-  h1 { font-family: Georgia, serif; font-weight: 500; font-size: 34px; margin: 0 0 6px; letter-spacing: -0.02em; }
-  .lede { color: var(--muted); margin: 0 0 18px; line-height: 1.45; max-width: 640px; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .card {
-    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 16px 14px;
-  }
-  .k { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  .v { font-family: Georgia, serif; font-size: 32px; margin-top: 6px; letter-spacing: -0.03em; }
-  .s { color: var(--muted); font-size: 13px; margin-top: 4px; line-height: 1.4; }
-  .board { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 14px; margin-top: 14px; }
-  .stop { display: grid; grid-template-columns: 72px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
-  .stop:first-of-type { border-top: 0; }
-  .flat { font-family: Georgia, serif; font-size: 16px; }
-  .zones { display: grid; gap: 10px; }
-  .zone h3 { margin: 4px 0; font-size: 18px; font-family: Georgia, serif; font-weight: 500; }
-  .zone.wait { background: var(--sand); }
-  .pill { display: inline-block; border-radius: 999px; padding: 2px 8px; font-size: 12px; background: var(--sage); color: var(--leaf); }
-  .pill.paused, .pill.late { background: #f3ead4; color: var(--gold); }
-  .pill.unpaid, .pill.failed, .pill.hold { background: #f8e6e1; color: var(--clay); }
-  .pill.waitlist { background: #eceae4; color: #5c584e; }
-  .pill.done { background: var(--sage); color: var(--leaf); }
-  .pill.scheduled { background: #e7eef4; color: #23405f; }
-  .meter { display: flex; gap: 5px; margin: 10px 0 6px; }
-  .tick { flex: 1; height: 28px; border-radius: 4px; background: #e6ebe4; max-width: 28px; }
-  .tick.on { background: var(--leaf); }
-  .tick.hot { background: var(--clay); }
-  .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
-  .choice {
-    text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px;
-  }
-  .choice.on { border-color: var(--leaf); background: var(--sage); }
-  .choice b { display: block; font-size: 16px; }
-  .choice span { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
-  form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  label.f { display: block; font-size: 13px; margin-bottom: 4px; color: var(--muted); }
-  input, select, textarea {
-    width: 100%; border: 1px solid var(--line); background: white; border-radius: 10px; padding: 10px 12px;
-  }
-  textarea { min-height: 78px; resize: vertical; }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  .btn { background: var(--leaf); color: white; border: 0; border-radius: 10px; padding: 10px 14px; }
-  .btn.secondary { background: white; color: var(--ink); border: 1px solid var(--line); }
-  .btn.danger { background: white; color: var(--clay); border: 1px solid #e7cfc8; }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .split { display: grid; grid-template-columns: 340px 1fr; gap: 16px; align-items: start; }
-  .split > article.card { position: sticky; top: 16px; }
+  a { color: var(--leaf); }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  main:focus { outline: none; }
   [hidden] { display: none !important; }
-  .people { display: flex; flex-direction: column; gap: 6px; max-height: 70vh; overflow: auto; }
-  .person {
-    text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px;
+  .skip {
+    position: absolute; left: 12px; top: -48px; background: white; color: var(--ink);
+    padding: 8px 12px; z-index: 40; border-radius: 8px;
   }
-  .person.on { border-color: var(--leaf); background: #f3f8f4; }
-  .person b { display: block; }
-  .check {
-    display: flex; gap: 10px; align-items: center;
-    margin: 8px 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: white; font-size: 16px;
+  .skip:focus { top: 12px; }
+  .announce {
+    margin: 0; background: var(--forest); color: #f3f7f1; text-align: center;
+    padding: 10px 16px; font-size: 14px; font-weight: 500;
   }
-  .check input { width: 18px; height: 18px; }
-  .note, .warn { border-radius: 12px; padding: 12px 14px; line-height: 1.45; margin: 12px 0; }
+  .site-header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(243, 246, 239, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(213, 226, 214, 0.9);
+  }
+  .bar {
+    position: relative;
+    max-width: 1120px; margin: 0 auto; padding: 10px 20px;
+    display: flex; align-items: center; gap: 12px; min-height: 64px;
+  }
+  .logo {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--ink); text-decoration: none; font-family: Lora, Georgia, serif;
+    font-size: 22px; font-weight: 600; letter-spacing: -0.02em; min-height: 44px;
+  }
+  .site-nav { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+  .site-nav a {
+    color: var(--ink); text-decoration: none; font-weight: 600;
+    padding: 8px 12px; border-radius: 999px; min-height: 44px;
+    display: inline-flex; align-items: center;
+  }
+  .site-nav a:hover { background: rgba(20, 83, 45, 0.06); }
+  .site-nav a[aria-current="page"] { background: var(--sage); color: var(--forest); }
+  .site-nav a.btn, .site-nav a.btn[aria-current="page"] { background: var(--leaf); color: white; }
+  .site-nav a.btn:hover { background: #0f3d22; color: white; }
+  .bar-end { display: none; align-items: center; gap: 8px; margin-left: auto; }
+  .nav-toggle {
+    min-height: 44px; min-width: 44px; padding: 8px 12px;
+    background: white; border: 1px solid var(--line); border-radius: 999px; font-weight: 700;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 20px 72px; }
+  .kicker {
+    margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--leaf);
+  }
+  h1, h2, h3 { font-family: Lora, Georgia, serif; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; }
+  h1 { font-size: clamp(34px, 5vw, 56px); margin: 0 0 14px; scroll-margin-top: 84px; }
+  h2 { font-size: clamp(26px, 3vw, 34px); margin: 0 0 10px; }
+  h3 { font-size: 22px; margin: 0 0 6px; }
+  .lede { color: var(--muted); font-size: 18px; max-width: 62ch; margin: 0 0 18px; }
+  .hero {
+    display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 36px; align-items: center;
+    padding-bottom: 12px;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; padding: 10px 18px; border-radius: 999px; border: 0;
+    background: var(--leaf); color: white; text-decoration: none; font-weight: 700;
+    transition: background-color 180ms ease, border-color 180ms ease;
+  }
+  .btn:hover { background: #0f3d22; }
+  .btn.secondary { background: white; color: var(--ink); border: 1px solid var(--line); }
+  .btn.secondary:hover { background: white; border-color: var(--leaf); }
+  .btn.light { background: white; color: var(--forest); }
+  .btn.light:hover { background: var(--sage); }
+  .btn.danger { background: white; color: var(--clay); border: 1px solid #e4cfc9; }
+  .btn.danger:hover { background: #fdf6f4; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn.small { min-height: 40px; padding: 8px 14px; }
+  .slip {
+    background: var(--card); border: 1px solid var(--line); border-radius: 24px;
+    padding: 18px 18px 16px; box-shadow: 0 18px 40px rgba(18, 40, 28, 0.08);
+  }
+  .slip-top { display: flex; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 14px; font-weight: 600; }
+  .slip h2 { font-size: 28px; margin: 14px 0 4px; }
+  .checks { list-style: none; padding: 0; margin: 14px 0; }
+  .checks li { display: flex; gap: 8px; align-items: flex-start; padding: 4px 0; }
+  .plain { margin: 8px 0 0; padding-left: 18px; }
+  .plain li { margin: 8px 0; }
+  .checks svg { flex: 0 0 auto; margin-top: 3px; color: var(--leaf); }
+  .section { margin-top: 48px; }
+  .cols-4, .cols-3, .cols-2 { display: grid; gap: 12px; }
+  .cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px;
+  }
+  .icon-bubble {
+    width: 44px; height: 44px; border-radius: 14px; background: var(--sage); color: var(--leaf);
+    display: grid; place-items: center; margin-bottom: 10px;
+  }
+  .card p, .slip p { margin: 6px 0; }
+  .muted { color: var(--muted); }
+  .schedule { display: grid; gap: 10px; }
+  .soc {
+    display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 12px; align-items: center;
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px;
+  }
+  .soc.wait { background: var(--sand); }
+  .price {
+    font-family: Lora, Georgia, serif; font-size: 64px; line-height: 0.95; letter-spacing: -0.04em; margin: 6px 0;
+  }
+  .price small { display: block; margin-top: 6px; font-family: Raleway, sans-serif; font-size: 16px; letter-spacing: 0; color: var(--muted); font-weight: 500; }
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  blockquote { margin: 0; }
+  blockquote p { margin: 0 0 12px; font-size: 16px; }
+  .who { display: flex; gap: 10px; align-items: center; }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--forest); color: white;
+    display: grid; place-items: center; font-size: 13px; font-weight: 700; flex: none;
+  }
+  .faqs details { border-top: 1px solid var(--line); padding: 4px 0; }
+  .faqs details:last-child { border-bottom: 1px solid var(--line); }
+  .faqs summary {
+    cursor: pointer; font-weight: 700; min-height: 48px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px; list-style: none;
+  }
+  .faqs summary::-webkit-details-marker { display: none; }
+  .faqs summary::after { content: "+"; font-family: Lora, Georgia, serif; font-size: 22px; color: var(--leaf); }
+  .faqs details[open] summary::after { content: "–"; }
+  .faqs details p { margin: 0 0 14px; color: var(--muted); max-width: 68ch; }
+  .band {
+    margin-top: 48px; background: var(--forest); color: #f4f7f1; border-radius: 28px; padding: 32px 28px;
+  }
+  .band p { color: #d5e4d8; max-width: 52ch; }
+  .band .btn { margin-top: 8px; }
+  .book-layout, .team-grid, .split { display: grid; grid-template-columns: 1.35fr 0.8fr; gap: 18px; align-items: start; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .summary, .worksheet { position: sticky; top: 84px; }
+  .choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 8px 0 14px; }
+  .choice {
+    text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px;
+    min-height: 78px;
+  }
+  .choice[aria-pressed="true"] { border-color: var(--leaf); background: var(--sage); box-shadow: inset 0 0 0 1px var(--leaf); }
+  .choice b { display: block; }
+  .choice span { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  label.f { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  input, select, textarea {
+    width: 100%; border: 1px solid var(--line); background: white; border-radius: 12px;
+    padding: 12px; font-size: 16px; min-height: 44px;
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  .help { color: var(--muted); font-size: 14px; margin: 6px 0 0; }
+  .alert { background: #f8e6e1; color: #6e2a22; border-radius: 14px; padding: 12px 14px; margin: 0 0 12px; }
+  .note, .warn { border-radius: 14px; padding: 12px 14px; margin: 12px 0; line-height: 1.45; }
   .note { background: var(--sage); }
   .warn { background: var(--sand); }
-  .bar-row { display: grid; grid-template-columns: 150px 1fr 110px; gap: 10px; align-items: center; margin: 8px 0; }
-  .bar { height: 14px; background: #e6ebe4; border-radius: 99px; overflow: hidden; }
-  .bar i { display: block; height: 100%; background: var(--leaf); border-radius: 99px; }
-  .bar.mid i { background: #7d9a62; }
-  .bar.low i { background: var(--clay); }
-  .toast {
-    position: fixed; right: 16px; bottom: 16px; max-width: 340px;
-    background: var(--forest); color: white; padding: 12px 14px; border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(20,40,30,0.18);
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 16px; }
+  .chips a {
+    text-decoration: none; color: var(--ink); background: white; border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 14px; min-height: 44px; display: inline-flex; align-items: center; font-weight: 600;
   }
-  .search { margin-bottom: 10px; }
-  .guide { background: #e7f0e8; border: 1px solid #d3e4d8; border-radius: 14px; padding: 14px 16px; margin: 0 0 16px; line-height: 1.5; }
-  .guide p { margin: 6px 0 0; }
-  .guide .k { color: var(--leaf); }
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 16px; }
-  button.step { text-align: left; width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
-  button.step:hover { border-color: var(--leaf); }
-  button.step .n { font-size: 12px; letter-spacing: 0.06em; color: var(--leaf); }
-  button.step b { display: block; margin: 3px 0 4px; font-size: 16px; }
-  button.step span { display: block; color: var(--muted); font-size: 13px; line-height: 1.4; }
-  .status-line { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; margin: 8px 0; }
-  @media (max-width: 980px) {
-    .app { grid-template-columns: 1fr; }
-    aside { position: sticky; height: auto; z-index: 2; }
-    nav { flex-direction: row; flex-wrap: wrap; overflow: visible; margin-top: 12px; gap: 4px; }
-    nav button { white-space: nowrap; padding: 8px 10px; flex: 1 1 30%; text-align: center; }
-    main { padding: 18px 14px 56px; }
-    .stats, .board, .split, form .row, .choices { grid-template-columns: 1fr; }
-    .split > article.card { position: static; }
-    aside { padding: 12px 12px 8px; }
-    .brand { font-size: 26px; }
-    nav { margin-top: 10px; }
-    .aside-foot { margin-top: 8px; padding: 0 8px 2px; font-size: 12px; }
-    .foot-long { display: none; }
-    .foot-short { display: inline; }
-    h1 { font-size: 28px; }
-    .people { max-height: none; }
-    .steps { grid-template-columns: 1fr; }
-    nav button span { display: none; }
+  .chips a:hover { border-color: var(--leaf); }
+  .people { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .person, .stop-btn {
+    text-align: left; width: 100%; background: var(--card); border: 1px solid var(--line);
+    border-radius: 14px; padding: 12px; min-height: 44px;
+  }
+  .person.on, .stop-btn.on { border-color: var(--leaf); background: #f3f8f4; }
+  .person b, .stop-btn b { display: block; }
+  .pill {
+    display: inline-block; border-radius: 999px; padding: 3px 8px; font-size: 13px; font-weight: 700;
+    background: var(--sage); color: var(--leaf);
+  }
+  .pill.paused { background: #f3ead4; color: #6e4e16; }
+  .pill.unpaid, .pill.failed { background: #f8e6e1; color: var(--clay); }
+  .pill.waitlist, .pill.hold { background: #eceae4; color: #3f3c36; }
+  .pill.scheduled { background: #e7eef4; color: #1e3a5f; }
+  .pill.done { background: var(--sage); color: var(--leaf); }
+  .timeline { list-style: none; padding: 0; margin: 8px 0 0; }
+  .timeline li { padding: 12px 0; border-top: 1px solid var(--line); }
+  .photo-note { background: var(--sand); border-radius: 14px; padding: 10px 12px; margin-top: 8px; }
+  .cap { height: 10px; background: #e1ebdf; border-radius: 99px; overflow: hidden; margin: 8px 0; }
+  .cap span { display: block; height: 100%; background: var(--leaf); }
+  .cap.full span { background: var(--clay); }
+  .check {
+    display: flex; gap: 10px; align-items: center; margin: 8px 0; padding: 10px 12px;
+    border: 1px solid var(--line); border-radius: 12px; background: white; min-height: 44px;
+  }
+  .check input { width: 18px; height: 18px; min-height: 18px; }
+  .route-list { display: flex; flex-direction: column; gap: 8px; max-height: 68vh; overflow: auto; }
+  .day-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; margin: 8px 0 12px; }
+  .day-tools select { width: auto; min-width: 180px; }
+  .site-foot {
+    max-width: 1120px; margin: 0 auto; padding: 8px 20px 48px;
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .site-foot a { color: var(--ink); text-decoration: none; display: flex; align-items: center; min-height: 44px; font-weight: 600; }
+  .site-foot a:hover { color: var(--leaf); }
+  .site-foot a[aria-current="page"] { color: var(--leaf); }
+  .foot-brand { font-family: Lora, Georgia, serif; font-size: 22px; color: var(--ink); margin: 8px 0; }
+  .toast {
+    position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%);
+    background: var(--forest); color: white; padding: 12px 16px; border-radius: 16px;
+    max-width: min(92vw, 440px); z-index: 30; text-align: center;
+    box-shadow: 0 10px 30px rgba(18, 40, 28, 0.2);
+  }
+  .fine { font-size: 14px; color: var(--muted); }
+  .text-link { background: none; border: 0; padding: 8px 0; min-height: 44px; color: var(--leaf); font-weight: 700; text-decoration: underline; }
+  @media (max-width: 900px) {
+    .cols-4 { grid-template-columns: 1fr 1fr; }
+    .quotes, .cols-3 { grid-template-columns: 1fr; }
+    .soc { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 800px) {
+    .site-nav {
+      display: none; position: absolute; left: 0; right: 0; top: 100%;
+      flex-direction: column; align-items: stretch; margin: 0; padding: 8px 12px 14px;
+      background: #f7faf6; border-bottom: 1px solid var(--line);
+    }
+    .site-header.open .site-nav { display: flex; }
+    .site-nav a { width: 100%; }
+    .bar-end { display: flex; }
+    .site-nav a.nav-book { display: none; }
+    .hero, .book-layout, .team-grid, .split, .site-foot, .row, .choices { grid-template-columns: 1fr; }
+    .summary, .worksheet { position: static; }
+    .route-list { max-height: none; }
+    .price { font-size: 52px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
   }
 </style>
 </head>
 <body>
-<div class="app">
-  <aside>
-    <div class="brand">PlantCare<small>Case 57 · October pilot</small></div>
-    <nav>
-      <button data-view="today" aria-current="page">Today<span>This Friday</span></button>
-      <button data-view="book">Book<span>Take ₹399</span></button>
-      <button data-view="customers">Customers<span>Care cards</span></button>
-      <button data-view="route">Route<span>The day's 14</span></button>
-      <button data-view="visit">Visit<span>Close a stop</span></button>
-      <button data-view="numbers">Numbers<span>The ₹229</span></button>
+<a class="skip" href="#main" id="skip">Skip to content</a>
+<p class="announce">October routes are open. Maple Residency on Thursday, Cedar Heights on Friday.</p>
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#home" data-nav="home">
+      <svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+        <rect width="32" height="32" rx="10" fill="#123524"/>
+        <path d="M16 25c0-8 6-14 12-15-1 8-6 15-12 15z" fill="#d7eccf"/>
+        <path d="M16 25C16 17 10 11 4 10c1 8 6 15 12 15z" fill="#8fbf78"/>
+        <path d="M16 25V8" stroke="#f4f7f1" stroke-width="1.4"/>
+      </svg>
+      <span>PlantCare</span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="Pages">
+      <a href="#how" data-nav="how">How it works</a>
+      <a href="#where" data-nav="where">Societies</a>
+      <a href="#pricing" data-nav="pricing">Pricing</a>
+      <a href="#plan" data-nav="plan">My plan</a>
+      <a class="btn nav-book" href="#book" data-nav="book">Book</a>
     </nav>
-    <div class="aside-foot"><span class="foot-long">One technician, Ravi. Two buildings inside 3 km. 14 visits a day. Read the green note on each screen. The folder README walks through the case.</span><span class="foot-short">Ravi · 14 visits a day · ₹229 each. Read the green note.</span></div>
-  </aside>
-  <main id="main"></main>
-</div>
-<div id="toast" class="toast" hidden></div>
+    <div class="bar-end">
+      <a class="btn small" href="#book" data-nav="book">Book</a>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    </div>
+  </div>
+</header>
+<main id="main" tabindex="-1"></main>
+<footer class="site-foot">
+  <div>
+    <div class="foot-brand">PlantCare</div>
+    <p class="muted">Plants looked after while you are at the office. ₹399 a month. Two visits. A photo the same day.</p>
+  </div>
+  <div>
+    <a href="#how" data-nav="how">How it works</a>
+    <a href="#where" data-nav="where">Societies</a>
+    <a href="#pricing" data-nav="pricing">Pricing</a>
+    <a href="#book" data-nav="book">Book a flat</a>
+  </div>
+  <div>
+    <a href="#plan" data-nav="plan">My plan</a>
+    <a href="#where">Maple Residency · Thursday</a>
+    <a href="#where">Cedar Heights · Friday</a>
+    <a href="#team" data-nav="team">Care team</a>
+  </div>
+</footer>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
 <script>
 const KEY = "plantcare-case57-v2";
 const TODAY = "2026-10-02";
-const PRICE = 399, COST = 170, CONTRIB = 229, CAP = 14, DAYS = 26, POOL = 182 * 170;
-const SOCIETIES = {
-  "Maple Residency": { day: 4, dayName: "Thursday", active: true },
-  "Cedar Heights": { day: 5, dayName: "Friday", active: true }
+const PRICE = 399;
+const CAP = 14;
+const VIEWS = ["home", "how", "where", "pricing", "book", "plan", "team"];
+const TITLES = {
+  home: "PlantCare — plant care for your flat",
+  how: "How a visit works — PlantCare",
+  where: "Societies we visit — PlantCare",
+  pricing: "₹399 a month — PlantCare",
+  book: "Book a visit — PlantCare",
+  plan: "Your plan — PlantCare",
+  team: "Care team — PlantCare"
 };
+const SOCIETIES = {
+  "Maple Residency": { day: 4, dayName: "Thursday" },
+  "Cedar Heights": { day: 5, dayName: "Friday" }
+};
+const FAQS = [
+  ["Do I need to be home?", "No. Tell us how to get in: the guard list, a key with the watchman, or the hours a maid is there."],
+  ["What if the door stays shut?", "We write down what happened and move that visit to the next Thursday or Friday for your building."],
+  ["Can I pause a month?", "Yes. Open your plan and pause the month you are home. Those visits come off, and that month is not charged."],
+  ["Why only two societies?", "The day works when every flat is in one building. We add a society when it can have a weekday of its own."],
+  ["What is not included?", "Repotting, new plants, and spray treatments. The visit is water, a light prune, a pest look, and a photo."]
+];
 
 function c(id, name, society, flat, plants, access, status, note) {
   return { id, name, society, flat, plants, access, status, note, phone: "" };
@@ -212,7 +370,7 @@ function seed() {
       c("c10", "Harish Gupta", "Cedar Heights", "T3-0804", 10, "Key in the meter cupboard", "active", ""),
       c("c11", "Vikram Nair", "Cedar Heights", "T2-1501", 7, "Owner is home", "paused", "Home all October and watering the plants himself."),
       c("c12", "Priya Menon", "Cedar Heights", "T1-0303", 8, "Maid", "unpaid", "October payment did not clear."),
-      c("c13", "Dev Patel", "Lakeview Towers", "L-0902", 7, "Guard", "waitlist", "Outside the 3 km zone.")
+      c("c13", "Dev Patel", "Lakeview Towers", "L-0902", 7, "Guard", "waitlist", "Outside the current routes.")
     ],
     visits: [
       ...pair("c1", "2026-10-08", "2026-10-22"),
@@ -230,12 +388,16 @@ function seed() {
 }
 
 let state = load();
-let view = "today";
+let view = "home";
 let selectedCustomer = null;
 let selectedVisit = null;
 let routeDate = "2026-10-08";
 let query = "";
 let societyPick = "Maple Residency";
+let menuOpen = false;
+let refocusSearch = false;
+let staffIn = sessionGet("plantcare-staff") === "1";
+let bookDraft = { name: "", phone: "", flat: "", plants: "6", access: "", note: "", other: "" };
 
 function load() {
   try {
@@ -245,13 +407,11 @@ function load() {
   return seed();
 }
 function save() { localStorage.setItem(KEY, JSON.stringify(state)); }
+function sessionGet(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+function sessionSet(k, v) { try { if (v == null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) {} }
 function uid(prefix) { state.seq += 1; return prefix + state.seq; }
 function esc(s) {
   return String(s ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
-}
-function inr(n) {
-  const sign = n < 0 ? "−" : "";
-  return sign + "₹" + Math.abs(Math.round(n)).toLocaleString("en-IN");
 }
 function pretty(iso) {
   return new Date(iso + "T12:00:00").toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
@@ -262,14 +422,13 @@ function addDays(iso, n) {
   return d.toISOString().slice(0, 10);
 }
 function customer(id) { return state.customers.find((x) => x.id === id); }
-function activeCustomers() { return state.customers.filter((x) => x.status === "active"); }
-function liveVisits(date) { return state.visits.filter((v) => v.date === date && v.status !== "cancelled"); }
+function liveVisits(date) { return state.visits.filter((v) => v.date === date && v.status !== "cancelled" && customer(v.customerId)); }
 function toast(msg) {
   const el = document.getElementById("toast");
-  el.hidden = false;
   el.textContent = msg;
+  el.hidden = false;
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => { el.hidden = true; }, 3400);
+  toast._t = setTimeout(() => { el.hidden = true; }, 3800);
 }
 function nextWeekday(fromIso, weekday) {
   const d = new Date(fromIso + "T12:00:00");
@@ -277,10 +436,11 @@ function nextWeekday(fromIso, weekday) {
   while (d.getDay() !== weekday) d.setDate(d.getDate() + 1);
   return d.toISOString().slice(0, 10);
 }
-function placeOn(preferred) {
+function placeOn(preferred, extra) {
   let iso = preferred;
   for (let i = 0; i < 6; i++) {
-    if (liveVisits(iso).length < CAP) return iso;
+    const used = liveVisits(iso).length + ((extra && extra[iso]) || 0);
+    if (used < CAP) return iso;
     iso = addDays(iso, 7);
   }
   return null;
@@ -289,7 +449,9 @@ function schedulePair(customerId, society) {
   const meta = SOCIETIES[society];
   const first = placeOn(nextWeekday(TODAY, meta.day));
   if (!first) return null;
-  const second = placeOn(addDays(first, 14));
+  const extra = {};
+  extra[first] = 1;
+  const second = placeOn(addDays(first, 14), extra);
   if (!second) return null;
   const blank = { status: "scheduled", note: "", water: false, prune: false, pest: false, photo: false };
   state.visits.push(
@@ -298,326 +460,637 @@ function schedulePair(customerId, society) {
   );
   return [first, second];
 }
+function peekPair(society) {
+  const meta = SOCIETIES[society];
+  if (!meta) return null;
+  const extra = {};
+  const first = placeOn(nextWeekday(TODAY, meta.day), extra);
+  if (!first) return null;
+  extra[first] = 1;
+  const second = placeOn(addDays(first, 14), extra);
+  if (!second) return null;
+  return [first, second];
+}
 function cancelFuture(customerId) {
   state.visits.forEach((v) => {
     if (v.customerId === customerId && v.status === "scheduled" && v.date >= TODAY) v.status = "cancelled";
   });
 }
-function meter(count) {
-  const cls = count >= CAP ? "hot" : "on";
-  return `<div class="meter" aria-label="${count} of ${CAP} visits">${Array.from({ length: CAP }, (_, i) => `<span class="tick ${i < count ? cls : ""}"></span>`).join("")}</div>`;
-}
-function pill(status) { return `<span class="pill ${esc(status)}">${esc(status)}</span>`; }
 function late(access) { return /evening|after 6/i.test(access || ""); }
-function guide(kicker) {
-  const paras = Array.prototype.slice.call(arguments, 1).map((p) => "<p>" + p + "</p>").join("");
-  return '<div class="guide"><div class="k">' + kicker + "</div>" + paras + "</div>";
+function svg(path) {
+  return '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + path + "</svg>";
 }
-function statusHelp(status) {
-  return {
-    active: "Paid. Both visits stay on the route, and this flat is inside the ₹229.",
-    paused: "Home this month. Later visits come off the route, and this flat is left out of the paying count.",
-    unpaid: "The ₹399 did not clear. Visits stay off until the payment is taken again.",
-    waitlist: "This building is outside the 3 km zone. The name is kept, and no visit is placed."
-  }[status] || "";
+const I = {
+  drop: svg('<path d="M12 3s6 6.2 6 10a6 6 0 0 1-12 0c0-3.8 6-10 6-10z"/>'),
+  cut: svg('<path d="M4 20c4-1 6-5 7-8 2 2 6 3 9 2"/><path d="M9 10l2 2"/><path d="M14 5l1.5 3"/>'),
+  look: svg('<path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.4"/>'),
+  photo: svg('<path d="M4 8h3l2-2h6l2 2h3v10H4z"/><circle cx="12" cy="13" r="3"/>'),
+  tick: svg('<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9"/>')
+};
+function pill(status) {
+  const label = {
+    active: "Active",
+    paused: "Paused",
+    unpaid: "Payment due",
+    waitlist: "On the list",
+    scheduled: "Upcoming",
+    done: "Done",
+    failed: "Missed entry",
+    hold: "Blocked"
+  }[status] || status;
+  return `<span class="pill ${esc(status)}">${esc(label)}</span>`;
 }
-
-function render() {
-  document.querySelectorAll("nav button").forEach((b) => {
-    b.setAttribute("aria-current", b.dataset.view === view ? "page" : "false");
+function nextOpenLabel(society) {
+  const meta = SOCIETIES[society];
+  const soon = nextWeekday(TODAY, meta.day);
+  const open = placeOn(soon);
+  if (!open) return "Fully booked for the next six weeks";
+  if (open !== soon) return pretty(soon) + " is full. Next open day is " + pretty(open);
+  return "Next open day " + pretty(open);
+}
+function faqList() {
+  return `<div class="faqs">${FAQS.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
+}
+function societyRows() {
+  const row = (name, day, detail, href, wait) => `
+    <article class="soc ${wait ? "wait" : ""}">
+      <div><b>${esc(name)}</b><div class="muted">${esc(detail)}</div></div>
+      <div>${esc(day)}</div>
+      <a class="btn secondary" href="${href}">${wait ? "Join the list" : "Book"}</a>
+    </article>`;
+  return `
+    <div class="schedule">
+      ${row("Maple Residency", "Thursday", nextOpenLabel("Maple Residency"), "#book?society=Maple%20Residency", false)}
+      ${row("Cedar Heights", "Friday", nextOpenLabel("Cedar Heights"), "#book?society=Cedar%20Heights", false)}
+      ${row("Another society", "When a weekday opens", "We keep your name and flat. No payment until then.", "#book?society=other", true)}
+    </div>`;
+}
+function hashPath() {
+  const raw = (location.hash || "#home").replace(/^#/, "");
+  return (raw.split("?")[0] || "home");
+}
+function hashParams() {
+  const raw = (location.hash || "").replace(/^#/, "");
+  const i = raw.indexOf("?");
+  return new URLSearchParams(i >= 0 ? raw.slice(i + 1) : "");
+}
+function currentView() {
+  const path = hashPath();
+  return VIEWS.includes(path) ? path : "home";
+}
+function readHash() {
+  view = currentView();
+  const params = hashParams();
+  if (params.has("society")) {
+    const s = params.get("society");
+    if (s === "other" || SOCIETIES[s]) societyPick = s;
+  }
+  if (view === "plan") {
+    query = params.get("q") || "";
+    if (params.has("member")) selectedCustomer = params.get("member");
+    else if (!params.has("q")) selectedCustomer = null;
+  }
+}
+function syncMenu() {
+  document.querySelector(".site-header").classList.toggle("open", menuOpen);
+  const b = document.getElementById("nav-toggle");
+  b.setAttribute("aria-expanded", menuOpen ? "true" : "false");
+  b.textContent = menuOpen ? "Close" : "Menu";
+}
+function captureDraft() {
+  if (!document.getElementById("book")) return;
+  ["name", "phone", "flat", "plants", "access", "note", "other"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) bookDraft[id] = el.value;
   });
-  document.getElementById("main").innerHTML = ({
-    today: viewToday, book: viewBook, customers: viewCustomers,
-    route: viewRoute, visit: viewVisit, numbers: viewNumbers
-  })[view]();
+}
+function render(opts) {
+  document.title = TITLES[view] || TITLES.home;
+  document.querySelectorAll("[data-nav]").forEach((a) => {
+    if (a.dataset.nav === view) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+  syncMenu();
+  const pages = { home: viewHome, how: viewHow, where: viewWhere, pricing: viewPricing, book: viewBook, plan: viewPlan, team: viewTeam };
+  document.getElementById("main").innerHTML = pages[view]();
   bind();
   save();
+  if (refocusSearch) {
+    refocusSearch = false;
+    const again = document.getElementById("q");
+    if (again) {
+      again.focus();
+      const n = again.value.length;
+      again.setSelectionRange(n, n);
+    }
+  } else if (opts && opts.focus) {
+    document.getElementById("main").focus({ preventScroll: true });
+  }
 }
 
-function viewToday() {
-  const active = activeCustomers();
-  const upcoming = state.visits.filter((v) => v.status === "scheduled" && v.date >= TODAY).sort((a, b) => a.date.localeCompare(b.date));
-  const nextDate = upcoming[0] ? upcoming[0].date : null;
-  const stops = nextDate ? liveVisits(nextDate).slice().sort((a, b) => customer(a.customerId).flat.localeCompare(customer(b.customerId).flat, undefined, { numeric: true })) : [];
-  const maple = active.filter((x) => x.society === "Maple Residency").length;
-  const cedar = active.filter((x) => x.society === "Cedar Heights").length;
-  const wait = state.customers.filter((x) => x.status === "waitlist").length;
-  const routeSociety = stops.length ? [...new Set(stops.map((v) => customer(v.customerId).society))].join(", ") : "";
-  const stopHtml = stops.map((v) => {
-    const cust = customer(v.customerId);
-    if (!cust || cust.status === "hold") return "";
-    return `<div class="stop"><div class="flat">${esc(cust.flat)}</div><div><b>${esc(cust.name)}</b><div class="s">${esc(cust.access)}</div></div><div>${pill(v.status)}${late(cust.access) ? ' <span class="pill late">late stop</span>' : ""}</div></div>`;
-  }).join("") || `<p class="s">No stops on the next route day.</p>`;
+function viewHome() {
   return `
-    <h1>Friday 2 October</h1>
-    <p class="lede">Ravi has no stops today. ${nextDate ? "The next route is " + pretty(nextDate) + ", " + stops.length + " of " + CAP + ", in " + routeSociety + "." : "Nothing is booked."}</p>
-    ${guide("What this screen is", "PlantCare sends one technician to water and check plants for people who are at the office. The price is <strong>₹399 a month</strong> for <strong>two visits</strong>. The service costs <strong>₹170</strong>, so each paying subscriber contributes <strong>₹229</strong>. This Friday is 2 October 2026. Maple is served on Thursday and Cedar on Friday, so today is empty on purpose and the work starts Thursday 8 October.")}
-    <div class="steps">
-      <button class="step" type="button" data-go="customers"><div class="n">1 · LOOK UP A FLAT</div><b>Customers</b><span>Open Ananya Rao. Then search Kavya. Her flat can be reached only after 6 pm.</span></button>
-      <button class="step" type="button" data-go="book"><div class="n">2 · TAKE A PAYMENT</div><b>Book</b><span>Add a Maple flat and it lands on a Thursday. A building outside the zone stays on the waitlist.</span></button>
-      <button class="step" type="button" data-go="route"><div class="n">3 · SEE THE CAP</div><b>Route</b><span>${nextDate ? pretty(nextDate) + " holds " + stops.length + " of 14 stops." : "No route is booked."} Fill the day, then book again and the new flat moves a week later.</span></button>
-      <button class="step" type="button" data-go="visit"><div class="n">4 · DO THE VISIT</div><b>Visit</b><span>Water, prune, pest check, photo, and a note. The visit stays open until all five are done.</span></button>
-      <button class="step" type="button" data-go="numbers"><div class="n">5 · READ THE MONEY</div><b>Numbers</b><span>₹229 is true when Ravi is paid per visit. A full-route salary loses money at this size.</span></button>
-      <button class="step" type="button" data-go="customers"><div class="n">6 · PAUSE A MONTH</div><b>Vikram is already paused</b><span>Search Vikram. He is home in October, so he is off the route and out of the paying count.</span></button>
-    </div>
-    <div class="stats">
-      <article class="card"><div class="k">Paying subscribers</div><div class="v">${active.length}</div><div class="s">${active.length} of 40 for day 30. Paused and unpaid stay off this count.</div></article>
-      <article class="card"><div class="k">Contribution this month</div><div class="v">${inr(active.length * CONTRIB)}</div><div class="s">${active.length} × ₹229, on per-visit pay.</div></article>
-      <article class="card"><div class="k">Visits still booked</div><div class="v">${upcoming.length}</div><div class="s">Two visits for each paying subscriber.</div></article>
-      <article class="card"><div class="k">Next day</div><div class="v">${stops.length}/${CAP}</div><div class="s">${nextDate ? pretty(nextDate) : "—"}</div></article>
-    </div>
-    <div class="board">
-      <article class="card">
-        <div class="k">${nextDate ? pretty(nextDate) + " · " + esc(routeSociety) : "Route"}</div>
-        <h2 style="font-family:Georgia,serif;font-weight:500;margin:6px 0 8px">Stops on the next route</h2>
-        ${stopHtml}
-      </article>
-      <div class="zones">
-        <article class="card zone"><div class="k">Active · Thursday</div><h3>Maple Residency</h3><p class="s">${maple} paying subscribers. One building, one weekday.</p></article>
-        <article class="card zone"><div class="k">Active · Friday</div><h3>Cedar Heights</h3><p class="s">${cedar} paying subscribers. Same 3 km pocket.</p></article>
-        <article class="card zone wait"><div class="k">Outside the zone</div><h3>Waitlist</h3><p class="s">${wait} ${wait === 1 ? "name" : "names"}. Kept off the route.</p></article>
+    <div class="wrap">
+      <section class="hero">
+        <div>
+          <p class="kicker">Home plant care</p>
+          <h1>We water the plants while you are at work.</h1>
+          <p class="lede">₹${PRICE} a month. Two visits to your flat. Water, a light prune, a look for pests, and a photo before we leave. You can pause a month you are home.</p>
+          <div class="actions">
+            <a class="btn" href="#book">Book your flat</a>
+            <a class="btn secondary" href="#where">See the societies</a>
+          </div>
+        </div>
+        <article class="slip" aria-label="Example of a visit note">
+          <div class="slip-top"><span>Example note</span><span>Thursday visit</span></div>
+          <h2>Money plant left where it was.</h2>
+          <p class="muted">Maple Residency · A-1204 · 8 plants</p>
+          <ul class="checks">
+            <li>${I.tick} Watered</li>
+            <li>${I.tick} Light prune on the dry tips</li>
+            <li>${I.tick} No pests on the new leaf</li>
+            <li>${I.tick} Photo sent the same day</li>
+          </ul>
+          <p class="fine">This is the note a member gets after a visit.</p>
+        </article>
+      </section>
+
+      <section class="section" aria-labelledby="where-title">
+        <p class="kicker">This month</p>
+        <h2 id="where-title">One building, one weekday.</h2>
+        <p class="lede">We stay inside your society for the day, so the visit actually happens. Right now that is Maple on Thursday and Cedar on Friday.</p>
+        ${societyRows()}
+      </section>
+
+      <section class="section" aria-labelledby="incl-title">
+        <h2 id="incl-title">What a visit covers</h2>
+        <div class="cols-4">
+          <article class="card"><div class="icon-bubble">${I.drop}</div><h3>Water</h3><p class="muted">Each pot, not a splash across the balcony. The money plant is not moved.</p></article>
+          <article class="card"><div class="icon-bubble">${I.cut}</div><h3>Light prune</h3><p class="muted">Dry tips and a yellow leaf. We do not repot.</p></article>
+          <article class="card"><div class="icon-bubble">${I.look}</div><h3>Pest look</h3><p class="muted">A check of the leaves. We tell you if something needs more than a look.</p></article>
+          <article class="card"><div class="icon-bubble">${I.photo}</div><h3>Photo</h3><p class="muted">A note the same day, so you can see the flat from the office.</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>For the day you are not home</h2>
+        <p class="lede">You leave before the balcony gets sun. The plants still need water, and a kind maid can still overdo it. PlantCare is a person who already knows the building, comes on a fixed day, and leaves the pots where you left them.</p>
+        <div class="cols-3">
+          <article class="card"><p class="kicker">1</p><h3>Tell us the flat</h3><p class="muted">Society, tower, and how we get in when you are out.</p></article>
+          <article class="card"><p class="kicker">2</p><h3>We take your building’s day</h3><p class="muted">Two visits, about two weeks apart. Evening flats go last.</p></article>
+          <article class="card"><p class="kicker">3</p><h3>You get the note</h3><p class="muted">Water, prune, pests, and a photo. Open it from your plan.</p></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="price-title">
+        <h2 id="price-title">Simple monthly price</h2>
+        <article class="card">
+          <div class="price">₹${PRICE}<small>per month · two visits · pause any month you are home</small></div>
+          <div class="actions"><a class="btn" href="#pricing">See what is included</a></div>
+        </article>
+      </section>
+
+      <section class="section" aria-labelledby="quote-title">
+        <h2 id="quote-title">From flats we already visit</h2>
+        <div class="quotes">
+          <article class="card"><blockquote><p>“I am at the office when the plants need water. They come on Thursday, send a photo, and they do not move the money plant.”</p><div class="who"><div class="avatar" aria-hidden="true">AR</div><div><b>Ananya Rao</b><div class="muted">Maple Residency · A-1204</div></div></div></blockquote></article>
+          <article class="card"><blockquote><p>“Someone is home only after six. They keep my flat as a late stop, so the morning round does not miss it.”</p><div class="who"><div class="avatar" aria-hidden="true">KI</div><div><b>Kavya Iyer</b><div class="muted">Maple Residency · B-0502</div></div></div></blockquote></article>
+          <article class="card"><blockquote><p>“Two Fridays a month. I stopped asking anyone to guess how much water the balcony wants.”</p><div class="who"><div class="avatar" aria-hidden="true">NK</div><div><b>Neha Kapoor</b><div class="muted">Cedar Heights · T2-0404</div></div></div></blockquote></article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <h2 id="faq-title">Questions</h2>
+        ${faqList()}
+      </section>
+
+      <section class="band">
+        <h2>Thursday at Maple. Friday at Cedar.</h2>
+        <p>₹${PRICE} for the month. Two visits. A photo before we leave.</p>
+        <a class="btn light" href="#book">Book your flat</a>
+      </section>
+    </div>`;
+}
+
+function viewHow() {
+  return `
+    <div class="wrap">
+      <p class="kicker">The visit</p>
+      <h1>What happens on your building’s day</h1>
+      <p class="lede">We come twice in the month, about two weeks apart. Maple is Thursday. Cedar is Friday. You do not have to be home.</p>
+      <div class="cols-3">
+        <article class="card"><p class="kicker">Morning</p><h3>Flats where someone can open</h3><p class="muted">Guard list, a key, or a maid who is in. We work through one tower at a time.</p></article>
+        <article class="card"><p class="kicker">After 6 pm</p><h3>Evening-only flats</h3><p class="muted">If the flat can be opened only after six, it goes at the end of that society’s day.</p></article>
+        <article class="card"><p class="kicker">Same day</p><h3>The note</h3><p class="muted">Water, prune, pest look, and a short note. It shows on your plan once the visit is closed.</p></article>
       </div>
+      <section class="section">
+        <h2>If we cannot get in</h2>
+        <p class="lede">We write what stopped us, and that visit moves to the next Thursday or Friday for your building. The other visit stays where it is.</p>
+        <h2>If you are home all month</h2>
+        <p class="lede">Pause from your plan. The remaining visits come off, and that month is not charged. Pay again when you want us back, and we place two new visits on the next open days.</p>
+        <div class="actions"><a class="btn" href="#book">Book your flat</a><a class="btn secondary" href="#plan">Open your plan</a></div>
+      </section>
+    </div>`;
+}
+
+function viewWhere() {
+  return `
+    <div class="wrap">
+      <p class="kicker">Coverage</p>
+      <h1>Societies on the October route</h1>
+      <p class="lede">Maple and Cedar sit close enough that a day can be spent on the plants. A society farther out waits until it can have a weekday of its own. A mixed day on the road means fewer flats finished.</p>
+      ${societyRows()}
+      <section class="section">
+        <h2>What “your building’s day” means</h2>
+        <p class="lede">Everyone we visit in Maple is on a Thursday. Everyone in Cedar is on a Friday. We do not book a one-off visit in a third society, because the travel would break the day. Join the list and we call when that building has a route.</p>
+      </section>
+    </div>`;
+}
+
+function viewPricing() {
+  return `
+    <div class="wrap">
+      <p class="kicker">Pricing</p>
+      <h1>₹${PRICE} a month.</h1>
+      <p class="lede">Two visits. Pause a month you are home and that month is not charged. Buildings outside Maple and Cedar are not charged until they have a route.</p>
+      <div class="cols-2">
+        <article class="card">
+          <h3>Included</h3>
+          <ul class="checks">
+            <li>${I.tick} Watering every pot on the flat</li>
+            <li>${I.tick} A light prune</li>
+            <li>${I.tick} A look for pests and tired leaves</li>
+            <li>${I.tick} A photo note the same day</li>
+            <li>${I.tick} A second visit about two weeks later</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Not included</h3>
+          <ul class="plain">
+            <li>Repotting or new soil</li>
+            <li>Buying plants or pots</li>
+            <li>Spray treatments</li>
+            <li>A visit on a day that is not your society’s day</li>
+          </ul>
+          <div class="actions"><a class="btn" href="#book">Book your flat</a></div>
+        </article>
+      </div>
+      <section class="section">
+        <h2>Pause and payment</h2>
+        <p class="lede">An active plan is paid for the month and both visits stay booked. Pause takes the later visits off. If a payment does not clear, the visits stay off until you pay again.</p>
+        ${faqList()}
+      </section>
     </div>`;
 }
 
 function viewBook() {
   const other = societyPick === "other";
+  const dates = other ? null : peekPair(societyPick);
+  const preview = other
+    ? "No payment today. We keep the flat on the list until that society has its own weekday."
+    : dates
+      ? "Your two visits would be " + pretty(dates[0]) + " and " + pretty(dates[1]) + "."
+      : "The next six weeks are full for this building.";
   return `
-    <h1>Book a subscription</h1>
-    <p class="lede">₹399 for the month, two visits. Maple and Cedar go on Ravi’s route. Any other society is a waitlist name.</p>
-    ${guide("What happens when you book", "The ₹399 is taken first. Maple visits go on <strong>Thursday</strong> and Cedar visits go on <strong>Friday</strong>, about two weeks apart. A day stops at 14 stops, and a new flat then moves to the next open week. Choose <strong>Another society</strong> for a building outside the 3 km zone: the name is saved, and no visit is placed.")}
-    <div class="choices">
-      <button type="button" class="choice ${societyPick === "Maple Residency" ? "on" : ""}" data-soc="Maple Residency"><b>Maple Residency</b><span>Thursday route · inside the zone</span></button>
-      <button type="button" class="choice ${societyPick === "Cedar Heights" ? "on" : ""}" data-soc="Cedar Heights"><b>Cedar Heights</b><span>Friday route · inside the zone</span></button>
-      <button type="button" class="choice ${other ? "on" : ""}" data-soc="other"><b>Another society</b><span>Waitlist. Off the route.</span></button>
-    </div>
-    <form id="book" class="card">
-      <div class="row">
-        <div><label class="f" for="name">Name</label><input id="name" required placeholder="Ananya Rao"></div>
-        <div><label class="f" for="phone">Phone</label><input id="phone" placeholder="Optional"></div>
+    <div class="wrap">
+      <p class="kicker">Book</p>
+      <h1>Book your flat</h1>
+      <p class="lede">₹${PRICE} for this month if your society is already on a route. Tell us how to get in when you are at work.</p>
+      <div class="choices" role="group" aria-label="Your society">
+        <button type="button" class="choice" aria-pressed="${societyPick === "Maple Residency"}" data-soc="Maple Residency"><b>Maple Residency</b><span>Thursday · ${esc(nextOpenLabel("Maple Residency"))}</span></button>
+        <button type="button" class="choice" aria-pressed="${societyPick === "Cedar Heights"}" data-soc="Cedar Heights"><b>Cedar Heights</b><span>Friday · ${esc(nextOpenLabel("Cedar Heights"))}</span></button>
+        <button type="button" class="choice" aria-pressed="${other}" data-soc="other"><b>Another society</b><span>Join the list. No visit yet.</span></button>
       </div>
-      ${other ? `<div class="row"><div><label class="f" for="other">Society name</label><input id="other" placeholder="Lakeview Towers" required></div></div>` : ""}
-      <div class="row">
-        <div><label class="f" for="flat">Tower and flat</label><input id="flat" required placeholder="A-1204"></div>
-        <div><label class="f" for="plants">Plant count</label><input id="plants" type="number" min="1" value="6" required></div>
+      <div class="book-layout">
+        <form id="book" class="card" novalidate>
+          <div id="form-error" class="alert" role="alert" tabindex="-1" hidden></div>
+          <div class="row">
+            <div><label class="f" for="name">Name</label><input id="name" name="name" autocomplete="name" required value="${esc(bookDraft.name)}"></div>
+            <div><label class="f" for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="For a confirmation call" value="${esc(bookDraft.phone)}"></div>
+          </div>
+          ${other ? `<div class="row"><div><label class="f" for="other">Society name</label><input id="other" required value="${esc(bookDraft.other)}" placeholder="Lakeview Towers"></div></div>` : ""}
+          <div class="row">
+            <div><label class="f" for="flat">Tower and flat</label><input id="flat" required value="${esc(bookDraft.flat)}" placeholder="A-1204"></div>
+            <div><label class="f" for="plants">Number of plants</label><input id="plants" type="number" min="1" required value="${esc(bookDraft.plants)}"></div>
+          </div>
+          <label class="f" for="access">How we get in</label>
+          <input id="access" required value="${esc(bookDraft.access)}" placeholder="Guard list, maid after 11" style="margin-bottom:12px">
+          <p class="help">We visit while you are out. This is the line the technician uses.</p>
+          <label class="f" for="note" style="margin-top:12px">Anything we must not get wrong</label>
+          <textarea id="note" placeholder="Do not move the money plant.">${esc(bookDraft.note)}</textarea>
+          <div class="actions" style="margin-top:14px">
+            <button class="btn" type="submit">${other ? "Join the list" : "Pay ₹" + PRICE + " and book"}</button>
+          </div>
+        </form>
+        <aside class="summary card">
+          <p class="kicker">${other ? "The list" : "This month"}</p>
+          <div class="price">${other ? "₹0" : "₹" + PRICE}<small>${other ? "until your society has a day" : "two visits, about two weeks apart"}</small></div>
+          <p>${esc(preview)}</p>
+          <p class="fine">Maple stays on Thursday. Cedar stays on Friday. A full day moves the first visit to the next open week.</p>
+        </aside>
       </div>
-      <label class="f" for="access">How Ravi gets in</label>
-      <input id="access" required placeholder="Guard list, maid after 11" style="margin-bottom:12px">
-      <label class="f" for="note">Care note</label>
-      <textarea id="note" placeholder="Anything the visit must not get wrong"></textarea>
-      <div class="actions" style="margin-top:14px"><button class="btn" type="submit">Take ₹399 and book</button></div>
-      <p class="s">Try a Maple flat such as Z-0101, then try Lakeview Towers under Another society and compare the two care cards.</p>
-    </form>`;
-}
-
-function viewCustomers() {
-  const list = state.customers.filter((cust) => cust.status !== "hold").filter((cust) => {
-    const blob = (cust.name + " " + cust.society + " " + cust.flat + " " + cust.status).toLowerCase();
-    return blob.includes(query.toLowerCase());
-  });
-  if (!list.some((cust) => cust.id === selectedCustomer)) selectedCustomer = list[0] ? list[0].id : null;
-  const people = list.map((cust) => `
-    <button type="button" class="person ${cust.id === selectedCustomer ? "on" : ""}" data-id="${esc(cust.id)}">
-      <b>${esc(cust.name)}</b>
-      <span class="s">${esc(cust.flat)} · ${esc(cust.society)}</span>
-      <span style="display:inline-block;margin-top:6px">${pill(cust.status)}</span>
-    </button>`).join("") || `<p class="s">No resident matches.</p>`;
-  const sel = selectedCustomer ? customer(selectedCustomer) : null;
-  const countLine = query
-    ? (list.length === 1 ? "1 record matches this search." : list.length + " records match this search.")
-    : list.length + " " + (list.length === 1 ? "record" : "records") + " on the books. The flat is the route key.";
-  return `
-    <h1>Customer records</h1>
-    <p class="lede">${countLine}</p>
-    ${guide("How to read a care card", "The flat is the route key. The access line is how Ravi gets in. The note is what the visit must get right. <strong>Active</strong> counts in the money. <strong>Paused</strong> and <strong>unpaid</strong> drop off the route. <strong>Waitlist</strong> is a building outside the zone. Search <strong>Kavya</strong> for an evening-only flat, <strong>Vikram</strong> for a paused month, and <strong>Dev</strong> for the waitlist.")}
-    <div class="split">
-      <div>
-        <input class="search" id="q" placeholder="Search name, flat, society" value="${esc(query)}">
-        <div class="people">${people}</div>
-        <button class="btn secondary" id="reset" type="button" style="margin-top:10px">Reset demo data</button>
-      </div>
-      ${sel ? customerDetail(sel) : ""}
     </div>`;
 }
 
-function customerDetail(cust) {
-  const visits = state.visits.filter((v) => v.customerId === cust.id && v.status !== "cancelled");
-  const vrows = visits.map((v) => `<li>${pretty(v.date)} · ${esc(v.status)}${v.note ? " · " + esc(v.note) : ""}</li>`).join("") || "<li>No visits on the route.</li>";
+function planDetail(cust) {
+  const meta = SOCIETIES[cust.society];
+  const visits = state.visits
+    .filter((v) => v.customerId === cust.id && v.status !== "cancelled")
+    .sort((a, b) => a.date.localeCompare(b.date));
+  const payLine = {
+    active: "₹" + PRICE + " is paid for October. Both visits stay booked.",
+    paused: "This month is paused, so it is not charged. The later visits are off the route.",
+    unpaid: "The October payment did not clear. Visits stay off until you pay.",
+    waitlist: cust.society + " does not have a weekday yet. We have not taken payment."
+  }[cust.status] || "";
+  const items = visits.map((v) => {
+    const note = v.note ? `<div class="photo-note"><b>${v.status === "done" ? "Note from the visit" : "Note"}.</b> ${esc(v.note)}</div>` : "";
+    return `<li><b>${esc(pretty(v.date))}</b> ${pill(v.status)}${note}</li>`;
+  }).join("") || "<li>No visits booked.</li>";
   return `
     <article class="card">
-      <div class="k">Care card</div>
-      <h2 style="margin:6px 0;font-family:Georgia,serif;font-weight:500;font-size:28px">${esc(cust.name)}</h2>
+      <p class="kicker">Your flat</p>
+      <h2>${esc(cust.name)}</h2>
       <p>${esc(cust.society)} · ${esc(cust.flat)} · ${esc(cust.plants)} plants</p>
-      ${cust.phone ? `<p><strong>Phone.</strong> ${esc(cust.phone)}</p>` : ""}
-      <p><strong>Access.</strong> ${esc(cust.access)}</p>
-      ${late(cust.access) ? `<p class="warn">This flat is evening-only. A morning batch will miss it unless the route allows a late stop.</p>` : ""}
-      ${cust.note ? `<p>${esc(cust.note)}</p>` : ""}
-      <p class="status-line">${pill(cust.status)} <span class="s">${statusHelp(cust.status)}</span></p>
-      <ul>${vrows}</ul>
+      <p>${pill(cust.status)}</p>
+      <p>${esc(payLine)}</p>
+      ${meta ? `<p>Your building is visited on ${esc(meta.dayName)}.</p>` : ""}
+      <p><b>How we get in.</b> ${esc(cust.access)}</p>
+      ${late(cust.access) ? `<p class="warn">This flat opens after 6 pm, so it is a late stop on that day.</p>` : ""}
+      ${cust.note ? `<p><b>Note on the flat.</b> ${esc(cust.note)}</p>` : ""}
+      <ol class="timeline">${items}</ol>
       <div class="actions">
-        ${cust.status === "active" ? `<button class="btn secondary" data-act="pause" data-id="${esc(cust.id)}" type="button">Pause this month</button><button class="btn danger" data-act="unpaid" data-id="${esc(cust.id)}" type="button">Mark unpaid</button>` : ""}
-        ${cust.status === "paused" || cust.status === "unpaid" ? `<button class="btn" data-act="resume" data-id="${esc(cust.id)}" type="button">Take payment and restore</button>` : ""}
-        ${cust.status === "waitlist" ? `<p class="s">This society is outside the pilot zone, so the record stays off the route.</p>` : ""}
+        ${cust.status === "active" ? `<button class="btn secondary" type="button" data-act="pause" data-id="${esc(cust.id)}">Pause this month</button>` : ""}
+        ${cust.status === "paused" || cust.status === "unpaid" ? `<button class="btn" type="button" data-act="resume" data-id="${esc(cust.id)}">Pay ₹${PRICE} and book two visits</button>` : ""}
+        ${cust.status === "waitlist" ? `<a class="btn secondary" href="#where">See societies on a route</a>` : ""}
       </div>
     </article>`;
 }
 
-function viewRoute() {
-  const dates = [...new Set(state.visits.filter((v) => v.status !== "cancelled").map((v) => v.date))].sort();
+function viewPlan() {
+  const people = state.customers.filter((cust) => cust.status !== "hold");
+  const q = query.trim().toLowerCase();
+  const matches = q ? people.filter((cust) => (cust.name + " " + cust.society + " " + cust.flat).toLowerCase().includes(q)) : [];
+  let detail = null;
+  if (q) {
+    if (!matches.some((cust) => cust.id === selectedCustomer)) selectedCustomer = matches[0] ? matches[0].id : null;
+    detail = selectedCustomer ? customer(selectedCustomer) : null;
+  } else if (selectedCustomer) {
+    detail = customer(selectedCustomer);
+    if (!detail || detail.status === "hold") detail = null;
+  }
+  const list = matches.length > 1 ? `<div class="people">${matches.map((cust) => `
+    <button type="button" class="person ${cust.id === selectedCustomer ? "on" : ""}" data-id="${esc(cust.id)}">
+      <b>${esc(cust.name)}</b><span class="muted">${esc(cust.flat)} · ${esc(cust.society)}</span> ${pill(cust.status)}
+    </button>`).join("")}</div>` : "";
+  const chips = q ? "" : `
+    <p class="help">Try a flat already on the October book.</p>
+    <div class="chips">
+      <a href="#plan?q=A-1204">A-1204</a>
+      <a href="#plan?q=Kavya">Kavya · after 6</a>
+      <a href="#plan?q=Vikram">Vikram · paused</a>
+      <a href="#plan?q=Priya">Priya · payment due</a>
+      <a href="#plan?q=Lakeview">Lakeview</a>
+    </div>`;
+  return `
+    <div class="wrap">
+      <p class="kicker">Members</p>
+      <h1>Your plan</h1>
+      <p class="lede">Look up a name or a flat. Pause a month you are home, or pay again when you want the visits back.</p>
+      <label class="f" for="q">Name or flat</label>
+      <input class="search" id="q" value="${esc(query)}" placeholder="A-1204 or Ananya" autocomplete="off">
+      ${chips}
+      ${q && !matches.length ? `<p class="warn">No flat matches that.</p>` : ""}
+      ${list}
+      ${detail ? planDetail(detail) : ""}
+    </div>`;
+}
+
+function byRoute(a, b) {
+  const ca = customer(a.customerId) || { access: "", flat: "", status: "" };
+  const cb = customer(b.customerId) || { access: "", flat: "", status: "" };
+  const rank = (cust) => cust.status === "hold" ? 2 : late(cust.access) ? 1 : 0;
+  const d = rank(ca) - rank(cb);
+  if (d) return d;
+  return String(ca.flat).localeCompare(String(cb.flat), undefined, { numeric: true });
+}
+function routeDates() {
+  return [...new Set(state.visits.filter((v) => v.status !== "cancelled").map((v) => v.date))].sort();
+}
+function viewTeam() {
+  if (!staffIn) {
+    return `
+      <div class="wrap">
+        <p class="kicker">Staff</p>
+        <h1>Care team</h1>
+        <p class="lede">The day book for Maple and Cedar. One building, up to 14 flats, so the visits finish.</p>
+        <button class="btn" type="button" id="staff-in">Open the day book</button>
+      </div>`;
+  }
+  const dates = routeDates();
   if (dates.length && !dates.includes(routeDate)) routeDate = dates.find((d) => d >= TODAY) || dates[0];
   const options = dates.map((d) => `<option value="${d}" ${d === routeDate ? "selected" : ""}>${pretty(d)}</option>`).join("");
-  const list = liveVisits(routeDate).slice().sort((a, b) => (customer(a.customerId).flat || "").localeCompare(customer(b.customerId).flat || "", undefined, { numeric: true }));
+  const list = dates.length ? liveVisits(routeDate).slice().sort(byRoute) : [];
   const societies = [...new Set(list.map((v) => customer(v.customerId).society))];
+  const count = list.length;
   const rows = list.map((v) => {
     const cust = customer(v.customerId);
-    return `<div class="stop"><div class="flat">${esc(cust.flat)}</div><div><b>${esc(cust.name)}</b><div class="s">${esc(cust.plants)} plants · ${esc(cust.access)}</div></div><div>${pill(v.status)}${late(cust.access) ? ' <span class="pill late">late stop</span>' : ""}</div></div>`;
-  }).join("") || `<p class="s">No visits this day.</p>`;
-  const count = list.length;
+    const name = cust.status === "hold" ? "Blocked slot" : cust.name;
+    const sub = cust.status === "hold" ? "Holding a place on this day" : `${cust.plants} plants · ${cust.access}`;
+    return `<button type="button" class="stop-btn ${v.id === selectedVisit ? "on" : ""}" data-visit="${esc(v.id)}"><b>${esc(cust.flat)} · ${esc(name)}</b><span class="muted">${esc(sub)}</span> ${pill(v.status)}${late(cust.access) ? ' <span class="pill paused">After 6 pm</span>' : ""}</button>`;
+  }).join("") || `<p class="muted">No visits on this day.</p>`;
+  let sheet = `<article class="card worksheet"><h2>Pick a stop</h2><p class="muted">The note you write is what the member sees on their plan.</p></article>`;
+  const current = state.visits.find((v) => v.id === selectedVisit && v.date === routeDate && v.status !== "cancelled");
+  if (current) {
+    const cust = customer(current.customerId);
+    if (cust.status === "hold") {
+      sheet = `<article class="card worksheet"><h2>Blocked slot</h2><p>This place keeps the day at 14. It is not a member.</p></article>`;
+    } else {
+      const locked = current.status !== "scheduled";
+      const box = (id, label) => `<label class="check"><input type="checkbox" id="${id}" ${current[id] ? "checked" : ""} ${locked ? "disabled" : ""}> ${label}</label>`;
+      sheet = `
+        <article class="card worksheet">
+          <p class="kicker">${esc(cust.society)} · ${esc(cust.flat)}</p>
+          <h2>${esc(cust.name)}</h2>
+          <p>${esc(cust.plants)} plants · ${esc(cust.access)}</p>
+          ${cust.note ? `<p class="note">${esc(cust.note)}</p>` : ""}
+          ${late(cust.access) ? `<p class="warn">Late stop. Come after 6 pm.</p>` : ""}
+          <p>${pill(current.status)} ${pill(cust.status)}</p>
+          ${box("water", "Watered")}
+          ${box("prune", "Light prune")}
+          ${box("pest", "Pest and health look")}
+          ${box("photo", "Photo taken")}
+          <label class="f" for="vnote">Note the member will see</label>
+          <textarea id="vnote" ${locked ? "disabled" : ""}>${esc(current.note)}</textarea>
+          <div class="actions" style="margin-top:12px">
+            <button class="btn" id="complete" type="button" ${locked ? "disabled" : ""}>Close visit and send the note</button>
+            <button class="btn danger" id="fail" type="button" ${locked ? "disabled" : ""}>Could not get in</button>
+          </div>
+          <div class="actions">
+            ${cust.status === "active" ? `<button class="btn secondary" type="button" data-act="pause" data-id="${esc(cust.id)}">Pause this month</button><button class="btn danger" type="button" data-act="unpaid" data-id="${esc(cust.id)}">Payment did not clear</button>` : ""}
+            ${cust.status === "paused" || cust.status === "unpaid" ? `<button class="btn" type="button" data-act="resume" data-id="${esc(cust.id)}">Take ₹${PRICE} and restore</button>` : ""}
+          </div>
+        </article>`;
+    }
+  }
   return `
-    <h1>Route</h1>
-    <p class="lede">One society, one weekday. The day stops at 14.</p>
-    ${guide("What the squares mean", "Each square is one stop Ravi can make that day. Green means the stop is already taken. The case cap is <strong>14 visits</strong>, and that number only holds when the stops are in one building. <strong>Fill this day</strong> adds temporary holds so you can see a full day. Holds stay off the customer list and off the ₹229. Book a flat in that building afterwards and the first visit moves to the next open week. <strong>Remove slot holds</strong> clears them.")}
-    <div class="actions" style="margin-bottom:12px">
-      <label class="f" for="route-date">Day</label>
-      <select id="route-date" style="width:auto">${options}</select>
-    </div>
-    <article class="card">
-      <div class="k">${esc(pretty(routeDate))} · ${esc(societies.join(", ") || "empty")}</div>
-      ${meter(count)}
-      <div class="s">${count} of ${CAP}. ${count >= CAP ? "This day is full. A new flat in this society moves to the next open week." : "Room for " + (CAP - count) + " more stops."}</div>
-      ${societies.length > 1 ? `<p class="warn">This day mixes more than one society. Travel will push the real count under 14.</p>` : ""}
-      ${rows}
-    </article>
-    <div class="actions" style="margin-top:12px">
-      <button class="btn secondary" id="fill" type="button">Fill this day to the cap</button>
-      <button class="btn secondary" id="clear-holds" type="button">Remove slot holds</button>
+    <div class="wrap">
+      <p class="kicker">Staff · Ravi</p>
+      <h1>Day book</h1>
+      <p class="lede">One society for the day. Fourteen visits is the cap, and it holds when the stops are in one building.</p>
+      <div class="day-tools">
+        <div><label class="f" for="route-date">Day</label><select id="route-date">${options}</select></div>
+        <button class="btn secondary" id="fill" type="button">Block the rest of this day</button>
+        <button class="btn secondary" id="clear-holds" type="button">Clear blocked slots</button>
+        <button class="text-link" id="staff-out" type="button">Leave the day book</button>
+      </div>
+      <div class="team-grid">
+        <article class="card">
+          <p class="kicker">${dates.length ? esc(pretty(routeDate)) : "Route"} · ${esc(societies.join(", ") || "empty")}</p>
+          <div class="cap ${count >= CAP ? "full" : ""}" role="progressbar" aria-valuemin="0" aria-valuemax="${CAP}" aria-valuenow="${Math.min(count, CAP)}" aria-label="${count} of ${CAP} visits"><span style="width:${Math.min(100, (count / CAP) * 100)}%"></span></div>
+          <p>${count} of ${CAP}. ${count >= CAP ? "This day is full. A new flat in this society moves to the next open week." : "Room for " + (CAP - count) + " more."}</p>
+          ${societies.length > 1 ? `<p class="warn">This day has more than one society. Travel will cut how many flats get finished.</p>` : ""}
+          <div class="route-list">${rows}</div>
+        </article>
+        ${sheet}
+      </div>
+      <p class="fine">This browser keeps the changes you make on this computer.</p>
+      <button class="text-link" id="reset" type="button">Restore the October list</button>
     </div>`;
 }
 
-function viewVisit() {
-  const open = state.visits
-    .filter((v) => ["scheduled", "done", "failed"].includes(v.status) && customer(v.customerId) && customer(v.customerId).status !== "hold")
-    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
-  if (!selectedVisit || !open.some((v) => v.id === selectedVisit)) {
-    selectedVisit = (open.find((v) => v.status === "scheduled") || open[0] || {}).id || null;
+function showError(msg) {
+  const box = document.getElementById("form-error");
+  if (!box) { toast(msg); return; }
+  box.hidden = false;
+  box.textContent = msg;
+  box.focus();
+}
+function go(hash) {
+  if (location.hash === hash) {
+    readHash();
+    render({ focus: true });
+    window.scrollTo(0, 0);
+    return;
   }
-  const options = open.map((v) => {
-    const cust = customer(v.customerId);
-    return `<option value="${esc(v.id)}" ${v.id === selectedVisit ? "selected" : ""}>${pretty(v.date)} · ${esc(cust.flat)} · ${esc(cust.name)} · ${esc(v.status)}</option>`;
-  }).join("");
-  const v = state.visits.find((x) => x.id === selectedVisit);
-  if (!v) return `<h1>Visit</h1><p>No visits yet.</p>`;
-  const cust = customer(v.customerId);
-  const locked = v.status !== "scheduled";
-  const box = (id, label) => `<label class="check"><input type="checkbox" id="${id}" ${v[id] ? "checked" : ""} ${locked ? "disabled" : ""}> ${label}</label>`;
-  return `
-    <h1>Service visit</h1>
-    <p class="lede">A visit closes only with the checklist and a photo note. That note is what the resident receives.</p>
-    ${guide("What the ₹399 buys", "Water, a light prune, a look for pests, and a photo the same day. Tick all four and write the note, then close the visit. If the door stays shut, write what happened and press <strong>Access failed</strong>. The stop is rebooked on the next Thursday or Friday for that building.")}
-    <label class="f" for="pick">Stop</label>
-    <select id="pick">${options}</select>
-    <article class="card" style="margin-top:12px">
-      <div class="k">${esc(cust.society)} · ${esc(cust.flat)}</div>
-      <h2 style="margin:6px 0;font-family:Georgia,serif;font-weight:500">${esc(cust.name)}</h2>
-      <p>${esc(cust.plants)} plants · ${esc(cust.access)}</p>
-      ${cust.note ? `<p>${esc(cust.note)}</p>` : ""}
-      <p>${pill(v.status)}</p>
-      ${box("water", "Watered")}
-      ${box("prune", "Light prune")}
-      ${box("pest", "Pest and health look")}
-      ${box("photo", "Photo taken")}
-      <label class="f" for="vnote">Note the resident will see</label>
-      <textarea id="vnote" ${locked ? "disabled" : ""}>${esc(v.note)}</textarea>
-      <div class="actions" style="margin-top:12px">
-        <button class="btn" id="complete" type="button" ${locked ? "disabled" : ""}>Close visit and send the note</button>
-        <button class="btn danger" id="fail" type="button" ${locked ? "disabled" : ""}>Access failed</button>
-      </div>
-    </article>`;
+  location.hash = hash;
 }
-
-function viewNumbers() {
-  const n = activeCustomers().length;
-  const real = n ? POOL / n : 0;
-  const each = n ? PRICE - real : 0;
-  const perDay = (n * 2) / DAYS;
-  const row = (label, width, amount, cls) => `
-    <div class="bar-row"><div>${label}</div><div class="bar ${cls}"><i style="width:${width}%"></i></div><div><b>${amount}</b></div></div>`;
-  return `
-    <h1>The case numbers, on this route</h1>
-    <p class="lede">Contribution is ₹399 minus ₹170. The cards below use that ₹229, which is the result when Ravi is paid per visit.</p>
-    ${guide("Two ways to pay Ravi", "<strong>Per visit.</strong> Cost stays ₹170 for the two visits, so every paying subscriber contributes ₹229 from the first one. The contribution card uses this.", "<strong>Fixed salary.</strong> A full month of 14 visits on 26 working days is 182 subscribers. Paying Ravi as if the route were already full costs 182 × ₹170 = ₹30,940. Spread over the " + n + " people paying now, that is " + (n ? inr(real) : "—") + " each. The fourth card is ₹399 minus that amount. The loss ends near <strong>78 subscribers</strong>, because ₹30,940 ÷ ₹399 is about 78.")}
-    <div class="stats">
-      <article class="card"><div class="k">Paying now</div><div class="v">${n}</div><div class="s">Day 30 target is 40. Ceiling per technician is 182.</div></article>
-      <article class="card"><div class="k">Case contribution</div><div class="v">${inr(n * CONTRIB)}</div><div class="s">${n} × (399 − 170)</div></article>
-      <article class="card"><div class="k">Visits this month</div><div class="v">${n * 2}</div><div class="s">${perDay.toFixed(1)} a day if spread over 26 days. Real routes are batched.</div></article>
-      <article class="card"><div class="k">Each, if the salary is fixed</div><div class="v">${n ? inr(each) : "—"}</div><div class="s">${n ? "Cost " + inr(real) + " each, against ₹399." : ""}</div></article>
-    </div>
-    <article class="card" style="margin-top:14px">
-      <div class="k">Same technician, three days</div>
-      ${row("14 visits · 182 subs", 100, "₹41,678", "")}
-      ${row("10 visits · 130 subs", 71, "₹29,770", "mid")}
-      ${row("8 visits · 104 subs", 57, "₹23,816", "low")}
-      <p>Subscribers per technician = (14 × 26) / 2 = <strong>182</strong>. Contribution at that load = 182 × 229 = <strong>₹41,678</strong>. A scattered day costs the same person ₹17,862. Break-even on a ₹30,940 salary is about <strong>78 subscribers</strong>.</p>
-    </article>`;
-}
-
 function bind() {
-  document.querySelectorAll("[data-go]").forEach((btn) => {
-    btn.addEventListener("click", () => { view = btn.dataset.go; render(); });
-  });
   document.querySelectorAll("[data-soc]").forEach((btn) => {
-    btn.addEventListener("click", () => { societyPick = btn.dataset.soc; render(); });
+    btn.addEventListener("click", () => {
+      captureDraft();
+      societyPick = btn.dataset.soc;
+      render();
+    });
   });
   const form = document.getElementById("book");
   if (form) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const flat = document.getElementById("flat").value.trim();
-      const plants = Number(document.getElementById("plants").value);
-      const access = document.getElementById("access").value.trim();
-      const note = document.getElementById("note").value.trim();
-      const soc = societyPick === "other" ? document.getElementById("other").value.trim() : societyPick;
-      if (!name || !flat || !access || !soc || !plants) { toast("Name, society, flat, plants, and access are required."); return; }
+      captureDraft();
+      const name = bookDraft.name.trim();
+      const phone = bookDraft.phone.trim();
+      const flat = bookDraft.flat.trim();
+      const plants = Number(bookDraft.plants);
+      const access = bookDraft.access.trim();
+      const note = bookDraft.note.trim();
+      const soc = societyPick === "other" ? bookDraft.other.trim() : societyPick;
+      ["name", "flat", "plants", "access", "other"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const bad = id === "plants" ? !(Number(el.value) >= 1) : !el.value.trim();
+        el.setAttribute("aria-invalid", bad ? "true" : "false");
+      });
+      if (!name || !flat || !access || !soc || !(plants >= 1)) {
+        showError("Add your name, the flat, the number of plants, and how we get in.");
+        return;
+      }
       const id = uid("c");
       const known = !!SOCIETIES[soc];
-      state.customers.push({ id, name, society: soc, flat, plants, access, status: known ? "active" : "waitlist", note, phone });
-      if (!known) toast(soc + " is outside the zone. " + name + " is on the waitlist.");
-      else {
-        const dates = schedulePair(id, soc);
-        toast(dates ? name + " is booked " + pretty(dates[0]) + " and " + pretty(dates[1]) + "." : "The society days are full for the next six weeks.");
+      if (!known) {
+        state.customers.push({ id, name, society: soc, flat, plants, access, status: "waitlist", note, phone });
+        bookDraft = { name: "", phone: "", flat: "", plants: "6", access: "", note: "", other: "" };
+        toast(name + " is on the list for " + soc + ". No payment taken.");
+        go("#plan?member=" + encodeURIComponent(id));
+        return;
       }
-      view = "customers";
-      selectedCustomer = id;
-      render();
+      const dates = schedulePair(id, soc);
+      if (!dates) {
+        toast("The next six weeks are full for that building.");
+        return;
+      }
+      state.customers.push({ id, name, society: soc, flat, plants, access, status: "active", note, phone });
+      bookDraft = { name: "", phone: "", flat: "", plants: "6", access: "", note: "", other: "" };
+      toast(name + " is booked " + pretty(dates[0]) + " and " + pretty(dates[1]) + ".");
+      go("#plan?member=" + encodeURIComponent(id));
     });
   }
   const q = document.getElementById("q");
-  if (q) q.addEventListener("input", () => { query = q.value; render(); const again = document.getElementById("q"); if (again) { again.focus(); again.setSelectionRange(query.length, query.length); } });
+  if (q) {
+    q.addEventListener("input", () => {
+      query = q.value;
+      if (!query.trim()) selectedCustomer = null;
+      refocusSearch = true;
+      const params = new URLSearchParams();
+      if (query) params.set("q", query);
+      const next = "#plan" + (params.toString() ? "?" + params.toString() : "");
+      history.replaceState(null, "", next);
+      render();
+    });
+  }
   document.querySelectorAll(".person").forEach((btn) => {
-    btn.addEventListener("click", () => { selectedCustomer = btn.dataset.id; render(); });
+    btn.addEventListener("click", () => {
+      selectedCustomer = btn.dataset.id;
+      const params = new URLSearchParams();
+      params.set("member", selectedCustomer);
+      if (query) params.set("q", query);
+      history.replaceState(null, "", "#plan?" + params.toString());
+      render();
+    });
   });
-  const onPerson = document.querySelector(".person.on");
-  if (onPerson) onPerson.scrollIntoView({ block: "nearest", inline: "nearest" });
   document.querySelectorAll("[data-act]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const cust = customer(btn.dataset.id);
-      if (btn.dataset.act === "pause") { cust.status = "paused"; cancelFuture(cust.id); toast(cust.name + " is paused. Future visits are off the route."); }
-      if (btn.dataset.act === "unpaid") { cust.status = "unpaid"; cancelFuture(cust.id); toast(cust.name + " is unpaid, so the visits were removed."); }
+      if (!cust) return;
+      if (btn.dataset.act === "pause") {
+        cust.status = "paused";
+        cancelFuture(cust.id);
+        toast(cust.name + " is paused for this month. Later visits are off the route.");
+      }
+      if (btn.dataset.act === "unpaid") {
+        cust.status = "unpaid";
+        cancelFuture(cust.id);
+        toast("Payment did not clear. Later visits are off until it is paid.");
+      }
       if (btn.dataset.act === "resume") {
-        if (!SOCIETIES[cust.society]) { toast("This society is outside the zone."); return; }
-        cust.status = "active";
+        if (!SOCIETIES[cust.society]) { toast("This society does not have a route yet."); return; }
         const dates = schedulePair(cust.id, cust.society);
-        toast(dates ? "Restored. Visits on " + pretty(dates[0]) + " and " + pretty(dates[1]) + "." : "Route is full.");
+        if (!dates) { toast("The next six weeks are full for that building."); return; }
+        cust.status = "active";
+        toast("Paid. Visits on " + pretty(dates[0]) + " and " + pretty(dates[1]) + ".");
       }
       render();
     });
   });
+  const staffInBtn = document.getElementById("staff-in");
+  if (staffInBtn) staffInBtn.addEventListener("click", () => { staffIn = true; sessionSet("plantcare-staff", "1"); render(); });
+  const staffOut = document.getElementById("staff-out");
+  if (staffOut) staffOut.addEventListener("click", () => { staffIn = false; sessionSet("plantcare-staff", null); render(); });
   const reset = document.getElementById("reset");
-  if (reset) reset.addEventListener("click", () => { state = seed(); selectedCustomer = null; routeDate = "2026-10-08"; query = ""; toast("Demo data reset."); render(); });
+  if (reset) reset.addEventListener("click", () => {
+    state = seed();
+    selectedCustomer = null;
+    selectedVisit = null;
+    routeDate = "2026-10-08";
+    query = "";
+    toast("October list restored.");
+    render();
+  });
   const routeSel = document.getElementById("route-date");
-  if (routeSel) routeSel.addEventListener("change", () => { routeDate = routeSel.value; render(); });
+  if (routeSel) routeSel.addEventListener("change", () => { routeDate = routeSel.value; selectedVisit = null; render(); });
+  document.querySelectorAll("[data-visit]").forEach((btn) => {
+    btn.addEventListener("click", () => { selectedVisit = btn.dataset.visit; render(); });
+  });
   const fill = document.getElementById("fill");
   if (fill) fill.addEventListener("click", () => {
     let guard = 0;
@@ -625,7 +1098,7 @@ function bind() {
       guard += 1;
       const id = uid("c");
       const soc = new Date(routeDate + "T12:00:00").getDay() === 5 ? "Cedar Heights" : "Maple Residency";
-      state.customers.push({ id, name: "Slot hold", society: soc, flat: "HOLD-" + guard, plants: 1, access: "Demo hold", status: "hold", note: "Occupies a slot. Not a subscriber.", phone: "" });
+      state.customers.push({ id, name: "Slot hold", society: soc, flat: "HOLD-" + guard, plants: 1, access: "Blocked", status: "hold", note: "", phone: "" });
       state.visits.push({ id: uid("v"), customerId: id, date: routeDate, status: "scheduled", note: "", water: false, prune: false, pest: false, photo: false, hold: true });
     }
     toast("This day now has " + liveVisits(routeDate).length + " of " + CAP + ".");
@@ -636,40 +1109,37 @@ function bind() {
     const ids = new Set(state.customers.filter((x) => x.status === "hold").map((x) => x.id));
     state.customers = state.customers.filter((x) => !ids.has(x.id));
     state.visits = state.visits.filter((v) => !ids.has(v.customerId));
-    toast("Slot holds removed.");
+    toast("Blocked slots cleared.");
     render();
   });
-  const pick = document.getElementById("pick");
-  if (pick) pick.addEventListener("change", () => { selectedVisit = pick.value; render(); });
   ["water", "prune", "pest", "photo"].forEach((key) => {
     const el = document.getElementById(key);
-    if (el) el.addEventListener("change", () => {
+    if (!el) return;
+    el.addEventListener("change", () => {
       const v = state.visits.find((x) => x.id === selectedVisit);
-      if (v && v.status === "scheduled") v[key] = el.checked;
-      save();
+      if (v && v.status === "scheduled") { v[key] = el.checked; save(); }
     });
   });
   const note = document.getElementById("vnote");
   if (note) note.addEventListener("input", () => {
     const v = state.visits.find((x) => x.id === selectedVisit);
-    if (v && v.status === "scheduled") v.note = note.value;
-    save();
+    if (v && v.status === "scheduled") { v.note = note.value; save(); }
   });
   const complete = document.getElementById("complete");
   if (complete) complete.addEventListener("click", () => {
     const v = state.visits.find((x) => x.id === selectedVisit);
     if (!v.water || !v.prune || !v.pest || !v.photo || !v.note.trim()) {
-      toast("Tick water, prune, pest, and photo, and write the note, before closing.");
+      toast("Tick water, prune, the pest look, and the photo, and write the note.");
       return;
     }
     v.status = "done";
-    toast("Visit closed. The note is on the record.");
+    toast("Visit closed. The note is on their plan.");
     render();
   });
   const fail = document.getElementById("fail");
   if (fail) fail.addEventListener("click", () => {
     const v = state.visits.find((x) => x.id === selectedVisit);
-    if (!v.note.trim()) { toast("Write what blocked access, then mark it failed."); return; }
+    if (!v.note.trim()) { toast("Write what stopped you getting in."); return; }
     v.status = "failed";
     const who = customer(v.customerId);
     const meta = SOCIETIES[who.society];
@@ -678,12 +1148,33 @@ function bind() {
       rebook = placeOn(nextWeekday(v.date, meta.day));
       if (rebook) state.visits.push({ id: uid("v"), customerId: who.id, date: rebook, status: "scheduled", note: "", water: false, prune: false, pest: false, photo: false });
     }
-    toast(rebook ? "Access failed. Rebooked for " + pretty(rebook) + "." : "Access failed. The next society days are full.");
+    toast(rebook ? "Could not get in. Next visit is " + pretty(rebook) + "." : "Could not get in. The next days for that building are full.");
     render();
   });
 }
 
-document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => { view = b.dataset.view; render(); }));
+document.getElementById("nav-toggle").addEventListener("click", () => {
+  menuOpen = !menuOpen;
+  syncMenu();
+});
+document.getElementById("skip").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("main").focus();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && menuOpen) {
+    menuOpen = false;
+    syncMenu();
+    document.getElementById("nav-toggle").focus();
+  }
+});
+window.addEventListener("hashchange", () => {
+  readHash();
+  menuOpen = false;
+  render({ focus: true });
+  window.scrollTo(0, 0);
+});
+readHash();
 render();
 </script>
 </body>
